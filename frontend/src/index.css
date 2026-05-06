@@ -1,0 +1,360 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────
+   Cronotix Design System
+   Primary  Navy  #002349  HSL(211 100% 14%)
+   Accent   Gold  #957C3D  HSL( 43  42% 41%)
+   Fonts    Outfit (UI) · Fraunces (display headings)
+───────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* ── Font families ── */
+  --font-sans:    "Outfit",   system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia,   serif;
+
+  /* ── Escala tipografica
+     Tailwind genera text-xs, text-sm, text-base, etc. a partir de estas vars.
+     Todos los valores son rem → escalan automaticamente con html { font-size }.
+     Para hacer todo mas grande: subir html font-size en @layer base.
+     Para ajustar una clase especifica: cambiar solo su --text-*.
+  ── */
+  --text-xs:   0.75rem;    /* 12px @ 16px root */
+  --text-sm:   0.875rem;   /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg:   1.125rem;   /* 18px */
+  --text-xl:   1.25rem;    /* 20px */
+  --text-2xl:  1.5rem;     /* 24px */
+  --text-3xl:  1.875rem;   /* 30px */
+  --text-4xl:  2.25rem;    /* 36px */
+  --text-5xl:  3rem;       /* 48px */
+
+  /* ── Radios de borde
+     Tailwind genera rounded-sm, rounded-md, rounded-lg, etc.
+  ── */
+  --radius-sm:   0.25rem;
+  --radius-md:   0.375rem;
+  --radius-lg:   0.5rem;
+  --radius-xl:   0.75rem;
+  --radius-2xl:  1rem;
+  --radius-3xl:  1.5rem;
+  --radius-full: 9999px;
+
+  /* ── Navy scale ── */
+  --color-navy-950: #00111F;
+  --color-navy-900: #00172D;
+  --color-navy-800: #001E3C;
+  --color-navy-700: #002349;
+  --color-navy-600: #003070;
+  --color-navy-500: #00408A;
+  --color-navy-400: #1A5FAD;
+  --color-navy-300: #4A87CC;
+  --color-navy-200: #7FB3E0;
+  --color-navy-100: #BDDCF4;
+  --color-navy-50:  #EEF5FB;
+
+  /* ── Gold scale ── */
+  --color-gold-950: #2A2010;
+  --color-gold-900: #3D3219;
+  --color-gold-800: #574726;
+  --color-gold-700: #7A6331;
+  --color-gold-600: #957C3D;
+  --color-gold-500: #B89650;
+  --color-gold-400: #D4B870;
+  --color-gold-300: #EDD49A;
+  --color-gold-200: #F5E6C0;
+  --color-gold-100: #FAF2E0;
+  --color-gold-50:  #FDF9F0;
+
+  /* ── Animation utilities ──────────────────────────────────────
+     Context   : content changes, structure stays
+                 (tab switch, filter, state update)
+     Drill     : navigating deeper in hierarchy
+                 (list → item, summary → full)
+     Continuity: shared element morphs to next state
+                 (card → full screen, mini → expanded)
+  ─────────────────────────────────────────────────────────────── */
+  --animate-context-in:    context-in    220ms ease-out         both;
+  --animate-context-out:   context-out   160ms ease-in          both;
+  --animate-drill-in:      drill-in      340ms cubic-bezier(.34,1.1,.64,1) both;
+  --animate-drill-out:     drill-out     200ms ease-in          both;
+  --animate-back-in:       back-in       340ms cubic-bezier(.34,1.1,.64,1) both;
+  --animate-fade-up:       fade-up       280ms ease-out         both;
+  --animate-fade-in:       fade-in       200ms ease-out         both;
+  --animate-slide-down:    slide-down    260ms ease-out         both;
+  --animate-scale-in:      scale-in      300ms cubic-bezier(.34,1.1,.64,1) both;
+  --animate-stagger-1:     fade-up       280ms 60ms  ease-out   both;
+  --animate-stagger-2:     fade-up       280ms 120ms ease-out   both;
+  --animate-stagger-3:     fade-up       280ms 180ms ease-out   both;
+  --animate-stagger-4:     fade-up       280ms 240ms ease-out   both;
+  --animate-blob:          blob          7s ease-in-out infinite;
+}
+
+/* Tailwind dark: responds to .dark class on <html> */
+@variant dark (&:where(.dark, .dark *));
+
+/* ── Semantic token → Tailwind color utility mapping ──────────────
+   Required in Tailwind v4: @theme inline lets CSS variables defined
+   in @layer base drive bg-*, text-*, border-* utilities (incl. /opacity).
+─────────────────────────────────────────────────────────────────── */
+@theme inline {
+  --color-background:           hsl(var(--background));
+  --color-foreground:           hsl(var(--foreground));
+  --color-card:                 hsl(var(--card));
+  --color-card-foreground:      hsl(var(--card-foreground));
+  --color-popover:              hsl(var(--popover));
+  --color-popover-foreground:   hsl(var(--popover-foreground));
+  --color-primary:              hsl(var(--primary));
+  --color-primary-foreground:   hsl(var(--primary-foreground));
+  --color-secondary:            hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted:                hsl(var(--muted));
+  --color-muted-foreground:     hsl(var(--muted-foreground));
+  --color-accent:               hsl(var(--accent));
+  --color-accent-foreground:    hsl(var(--accent-foreground));
+  --color-destructive:          hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-warning:              hsl(var(--warning));
+  --color-warning-foreground:   hsl(var(--warning-foreground));
+  --color-success:              hsl(var(--success));
+  --color-success-foreground:   hsl(var(--success-foreground));
+  --color-border:               hsl(var(--border));
+  --color-input:                hsl(var(--input));
+  --color-ring:                 hsl(var(--ring));
+}
+
+/* ── Keyframes ─────────────────────────────────────────────────── */
+@keyframes context-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes context-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-4px); }
+}
+
+/* Drill — new item scales up & enters from slight bottom offset */
+@keyframes drill-in {
+  from { opacity: 0; transform: scale(.97) translateY(10px); }
+  to   { opacity: 1; transform: scale(1)   translateY(0); }
+}
+@keyframes drill-out {
+  from { opacity: 1; transform: scale(1)    translateY(0); }
+  to   { opacity: 0; transform: scale(.97)  translateY(-6px); }
+}
+
+/* Back — reverse of drill */
+@keyframes back-in {
+  from { opacity: 0; transform: scale(1.02) translateY(-8px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+/* Generic utilities */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Landing hero blobs (cronotix.mx-style) */
+@keyframes blob {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+@utility animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+/* ── Scroll-reveal section animations ─────────────────────────── */
+/*
+   Strategy: CSS animation (not transition).
+   - Transitions need a previous *painted* state; if the class is added in
+     the same or next frame after a layout shift, browsers skip them.
+   - Animations always play their @keyframes from scratch when the class
+     is added — no "before" state required.
+*/
+@keyframes reveal-in {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes reveal-in-delayed {
+  0%   { opacity: 0; transform: translateY(22px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@layer components {
+  /* Start hidden */
+  .reveal-section {
+    opacity: 0;
+  }
+
+  /* Animation fires the moment is-visible is added */
+  .reveal-section.is-visible {
+    animation: reveal-in 560ms cubic-bezier(.4, 0, .2, 1) both;
+  }
+
+  /* Staggered children inside revealed sections */
+  .reveal-section.is-visible [data-delay="1"] { animation-delay: 80ms; }
+  .reveal-section.is-visible [data-delay="2"] { animation-delay: 160ms; }
+  .reveal-section.is-visible [data-delay="3"] { animation-delay: 240ms; }
+  .reveal-section.is-visible [data-delay="4"] { animation-delay: 320ms; }
+  .reveal-section.is-visible [data-delay="5"] { animation-delay: 400ms; }
+  .reveal-section.is-visible [data-delay="6"] { animation-delay: 480ms; }
+
+  /* Hero: always visible from the start, skip hidden state */
+  .reveal-section--instant {
+    opacity: 1;
+  }
+
+  /* Respect reduced-motion: show everything instantly */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-section,
+    .reveal-section.is-visible {
+      opacity: 1 !important;
+      animation: none !important;
+    }
+  }
+}
+
+/* ── View Transitions (page-level) ────────────────────────────── */
+::view-transition-group(site-logo) {
+  animation-duration: 380ms;
+  animation-timing-function: cubic-bezier(.4,0,.2,1);
+}
+::view-transition-old(site-logo) { animation: 180ms ease-out both vt-fade-out; }
+::view-transition-new(site-logo) { animation: 320ms ease-out both vt-fade-in; }
+
+::view-transition-old(root) { animation: 180ms ease-out both vt-fade-out; }
+::view-transition-new(root) { animation: 280ms ease-out both vt-fade-in; }
+
+html[data-vt="drill"] ::view-transition-old(root) { animation: 200ms ease-in  both vt-drill-out; }
+html[data-vt="drill"] ::view-transition-new(root) { animation: 340ms cubic-bezier(.34,1.1,.64,1) both vt-drill-in; }
+html[data-vt="back"]  ::view-transition-old(root) { animation: 200ms ease-in  both vt-back-out; }
+html[data-vt="back"]  ::view-transition-new(root) { animation: 340ms cubic-bezier(.34,1.1,.64,1) both vt-back-in; }
+
+@keyframes vt-fade-out  { from{opacity:1}  to{opacity:0} }
+@keyframes vt-fade-in   { from{opacity:0}  to{opacity:1} }
+@keyframes vt-drill-out { from{opacity:1;transform:scale(1)   } to{opacity:0;transform:scale(.94)} }
+@keyframes vt-drill-in  { from{opacity:0;transform:scale(1.05)translateY(8px)} to{opacity:1;transform:scale(1)translateY(0)} }
+@keyframes vt-back-out  { from{opacity:1;transform:scale(1)   translateY(0)} to{opacity:0;transform:scale(1.05)translateY(-8px)} }
+@keyframes vt-back-in   { from{opacity:0;transform:scale(.94) } to{opacity:1;transform:scale(1)} }
+
+/* ── Base tokens ──────────────────────────────────────────────── */
+@layer base {
+  :root {
+    color-scheme: dark;
+
+    --background:           211 100%  7%;
+    --foreground:           210  20% 95%;
+    --card:                 211 100% 11%;
+    --card-foreground:      210  20% 95%;
+    --popover:              211 100%  9%;
+    --popover-foreground:   210  20% 95%;
+    --primary:               43  42% 41%;
+    --primary-foreground:     0   0% 100%;
+    --secondary:            211  60% 18%;
+    --secondary-foreground:  210  20% 95%;
+    --muted:                211  70% 13%;
+    --muted-foreground:     211  22% 58%;
+    --accent:                43  50% 48%;
+    --accent-foreground:    211 100%  9%;
+    --destructive:            0  65% 48%;
+    --destructive-foreground: 0   0% 100%;
+    --warning:               43  85% 50%;
+    --warning-foreground:   211 100%  9%;
+    --success:              152  55% 38%;
+    --success-foreground:     0   0% 100%;
+    --border:               211  50% 20%;
+    --input:                211  50% 18%;
+    --ring:                  43  42% 41%;
+    --radius: 0.5rem;
+    --sidebar-width: 240px;
+  }
+
+  .light {
+    color-scheme: light;
+
+    --background:           210  30% 97%;
+    --foreground:           211 100% 12%;
+    --card:                   0   0% 100%;
+    --card-foreground:      211 100% 12%;
+    --popover:                0   0% 100%;
+    --popover-foreground:   211 100% 12%;
+    --primary:              211 100% 14%;
+    --primary-foreground:     0   0% 100%;
+    --secondary:            210  30% 93%;
+    --secondary-foreground:  211 100% 12%;
+    --muted:                210  30% 93%;
+    --muted-foreground:     211  25% 42%;
+    --accent:                43  42% 41%;
+    --accent-foreground:      0   0% 100%;
+    --destructive:            0  65% 48%;
+    --destructive-foreground: 0   0% 100%;
+    --warning:               43  80% 45%;
+    --warning-foreground:     0   0% 100%;
+    --success:              152  55% 35%;
+    --success-foreground:     0   0% 100%;
+    --border:               213  25% 85%;
+    --input:                213  25% 85%;
+    --ring:                 211 100% 14%;
+  }
+
+  * { border-color: hsl(var(--border)); }
+
+  html {
+    font-size: 16px; /* ancla de rem — cambiar aqui escala TODAS las utilidades rem */
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    touch-action: manipulation;
+  }
+
+  /* Display font for hero/section headings */
+  .font-display { font-family: var(--font-display); }
+
+  /* Heading defaults — Outfit, tighter tracking */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  /* Semantic utilities */
+  .text-warning { color: hsl(var(--warning)); }
+  .bg-warning   { background-color: hsl(var(--warning)); }
+  .text-success { color: hsl(var(--success)); }
+  .bg-success   { background-color: hsl(var(--success)); }
+  .tabular-nums { font-variant-numeric: tabular-nums; }
+
+  /* Reduce motion — turns all custom animations off */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration:        0.01ms !important;
+      animation-iteration-count: 1      !important;
+      transition-duration:       0.01ms !important;
+    }
+  }
+}
